@@ -83,7 +83,7 @@ def main() -> None:
 
 
 def generate_cursor_string(cursor: any) -> List:
-    # Fetch all rows from the cursor
+    """Fetch all rows from the cursor"""
     rows = cursor.fetchall()
     column_names = [col[0] for col in cursor.description]
 
