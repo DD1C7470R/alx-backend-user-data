@@ -64,3 +64,37 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=db_name,
     )
     return connection
+
+
+def main() -> None:
+    """obtain a database connection using get_db
+            and retrieve all rows in the users table and
+            display each row under a filtered format
+    """
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    logger = get_logger()
+
+    user_str = generate_cursor_string(cursor)
+    [logger.info(row) for row in user_str]
+    cursor.close()
+    db.close()
+
+
+def generate_cursor_string(cursor: any) -> List:
+    # Fetch all rows from the cursor
+    rows = cursor.fetchall()
+    column_names = [col[0] for col in cursor.description]
+
+    data = []
+    for row in rows:
+        result = '; '.join(
+            [f'{k}={v}' for k, v in zip(column_names, row)]
+        )
+        data.append(result)
+    return data
+
+
+if __name__ == "__main__":
+    main()
