@@ -46,3 +46,20 @@ def get_logger() -> logging.Logger:
     stream_handler.setFormatter(formatter)
     logger.addHandler(stream_handler)
     return logger
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """returns a  returns a connector to the database"""
+    from os import getenv
+    try:
+        # Establish a connection to the MySQL database
+        connection = mysql.connector.connect(
+            host=getenv('PERSONAL_DATA_DB_HOST'),
+            user=getenv('PERSONAL_DATA_DB_USERNAME'),
+            password=getenv('PERSONAL_DATA_DB_PASSWORD'),
+            database=getenv('PERSONAL_DATA_DB_NAME'),
+            port=3306
+        )
+        return connection
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return None
