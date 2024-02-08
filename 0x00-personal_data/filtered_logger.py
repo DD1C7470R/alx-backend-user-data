@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """get filtered logs"""
 import logging
+import mysql.connector
 import re
 from typing import List
 
