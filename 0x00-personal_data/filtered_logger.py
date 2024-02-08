@@ -3,6 +3,7 @@
 import logging
 import mysql.connector
 import re
+import os
 from typing import List
 
 
@@ -51,16 +52,15 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """returns a  returns a connector to the database"""
-    from os import getenv
-    try:
-        # Establish a connection to the MySQL database
-        connection = mysql.connector.connect(
-            host=getenv('PERSONAL_DATA_DB_HOST'),
-            user=getenv('PERSONAL_DATA_DB_USERNAME'),
-            password=getenv('PERSONAL_DATA_DB_PASSWORD'),
-            database=getenv('PERSONAL_DATA_DB_NAME'),
-            port=3306
-        )
-        return connection
-    except mysql.connector.Error as err:
-        return None
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME", "")
+    db_user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    connection = mysql.connector.connect(
+        host=db_host,
+        port=3306,
+        user=db_user,
+        password=db_pwd,
+        database=db_name,
+    )
+    return connection
