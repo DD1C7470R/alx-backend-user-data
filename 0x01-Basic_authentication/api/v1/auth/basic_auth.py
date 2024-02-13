@@ -2,7 +2,7 @@
 """
     Defines BasicAuth class
 """
-from auth import Auth
+from .auth import Auth
 from flask import request
 from typing import List, TypeVar
 
