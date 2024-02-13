@@ -21,7 +21,7 @@ excluded_paths = [
 ]
 
 
-if os.getenv('AUTH_TYPE') == 'auth':
+if os.getenv('AUTH_TYPE', '') == 'auth':
     auth = Auth()
 
 
