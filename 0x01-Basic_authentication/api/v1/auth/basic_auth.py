@@ -32,12 +32,10 @@ class BasicAuth(Auth):
         """
 
         if isinstance(authorization_header, str):
-            try:
-                for char in decoded_base64_authorization_header:
-                    if char == ":":
-                        token = decoded_base64_authorization_header.split(':')
-                        return token
-            except Exception:
-                return None
+            for char in decoded_base64_authorization_header:
+                if char == ":":
+                    token = decoded_base64_authorization_header.split(':')
+                    return tuple(token)
+            return (None, None)
         else:
-            return None
+            return (None, None)
