@@ -2,3 +2,8 @@ __MACOSX
 *.zip
 venv
 SimpleAPI
+.DS_Store
+DS_Store
+*.pyc
+__o
+__pycache__
