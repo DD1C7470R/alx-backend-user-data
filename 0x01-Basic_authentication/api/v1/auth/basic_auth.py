@@ -24,14 +24,14 @@ class BasicAuth(Auth):
         else:
             return None
 
-    def decode_base64_authorization_header(
-            self, authorization_header: str
+    def extract_user_credentials(
+            self, decoded_base64_authorization_header: str
      ) -> str:
         """returns the decoded value of a Base64 string
         base64_authorization_header
         """
 
-        if isinstance(authorization_header, str):
+        if isinstance(decoded_base64_authorization_header, str):
             for char in decoded_base64_authorization_header:
                 if char == ":":
                     token = decoded_base64_authorization_header.split(':')
@@ -39,3 +39,21 @@ class BasicAuth(Auth):
             return (None, None)
         else:
             return (None, None)
+
+    def decode_base64_authorization_header(
+             self, authorization_header: str
+      ) -> str:
+        """returns the decoded value of a Base64 string
+        base64_authorization_header
+        """
+        import base64
+
+        if isinstance(authorization_header, str):
+            try:
+                encode = base64.b64decode(authorization_header)
+                token = encode.decode('utf-8')
+                return token
+            except Exception:
+                return None
+            else:
+                return None
