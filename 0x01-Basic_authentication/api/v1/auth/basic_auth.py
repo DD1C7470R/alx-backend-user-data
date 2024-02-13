@@ -30,13 +30,13 @@ class BasicAuth(Auth):
         """returns the decoded value of a Base64 string
         base64_authorization_header
         """
-        import base64
 
         if isinstance(authorization_header, str):
             try:
-                encode = base64.b64decode(authorization_header)
-                token = encode.decode('utf-8')
-                return token
+                for char in decoded_base64_authorization_header:
+                    if char == ":":
+                        token = decoded_base64_authorization_header.split(':')
+                        return token
             except Exception:
                 return None
         else:
