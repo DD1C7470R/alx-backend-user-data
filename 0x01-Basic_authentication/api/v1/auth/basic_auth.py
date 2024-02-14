@@ -69,14 +69,15 @@ class BasicAuth(Auth):
         elif not isinstance(user_email, str) or not isinstance(user_pwd, str):
             return None
         else:
-            found_user = None
-            users = [user.to_json() for user in User.all()]
-            for user in users:
-                if user['email'] == user_email:
-                    user = User.search({"email": user_email})[0]
-                    if user.is_valid_password(user_pwd):
-                        return user
-
+            try:
+                users = [user.to_json() for user in User.all()]
+                for user in users:
+                    if user['email'] == user_email:
+                        user = User.search({"email": user_email})[0]
+                        if user.is_valid_password(user_pwd):
+                            return user
+            except Exception:
+                return None
             return None
 
     def current_user(self, request=None) -> TypeVar('User'):
