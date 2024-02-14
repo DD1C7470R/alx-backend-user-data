@@ -76,8 +76,7 @@ class BasicAuth(Auth):
                     user = User.search({"email": user_email})[0]
                     if user.is_valid_password(user_pwd):
                         return user
-                else:
-                    return None
+
             return None
 
     def current_user(self, request=None) -> TypeVar('User'):
