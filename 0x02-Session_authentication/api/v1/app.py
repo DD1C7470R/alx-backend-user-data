@@ -58,7 +58,7 @@ def authenticate_user():
             '/api/v1/auth_session/login'
         ]
     if auth.require_auth(request.path, excluded_paths):
-        is_cookie_set = request.cookies.get(getenv("SESSION_NAME"))
+        is_cookie_set = auth.session_cookie(request)
         auth_header = auth.authorization_header(request)
 
         if auth_header is None and is_cookie_set is None:
