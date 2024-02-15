@@ -42,6 +42,7 @@ def login_user() -> str:
     except Exception as e:
         return make_response(jsonify({"error": "an error occured"}), 500)
 
+
 @app_views.route(
         '/auth_session/logout',
         methods=['DELETE'],
