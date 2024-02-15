@@ -6,6 +6,7 @@ from typing import List, TypeVar
 from flask import request
 from os import getenv
 
+
 class Auth:
     """Authentication class.
     """
