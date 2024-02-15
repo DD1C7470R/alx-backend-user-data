@@ -1,43 +1,40 @@
 #!/usr/bin/env python3
-""" Module of Users views
 """
-from api.v1.views import app_views
-from flask import abort, jsonify, request, make_response
+    Defines SessionAuth class
+"""
+from .auth import Auth
+from flask import request
 from models.user import User
+from typing import List, TypeVar
 import uuid
 from os import getenv
 
 
-@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
-def login_user() -> str:
-    """ POST /api/v1/auth_session/login
-    Form params
-            - email
-            - password
-    Return:
-      - list of all User objects JSON represented
-    """
-    from api.v1.app import auth
+class SessionAuth(Auth):
+    """Session auth class to handle session authorization"""
+    user_id_by_session_id = {}
 
-    email = request.form.get("email")
-    if email is None:
-        return jsonify({"error": "email missing"}), 400
-    password = request.form.get("password")
-    if password is None:
-        return jsonify({"error": "password missing"}), 400
+    def create_session(self, user_id: str = None) -> str:
+        """Session auth class to handle session authorization"""
+        if user_id is None or not isinstance(user_id, str):
+            return None
+        else:
+            session_id = str(uuid.uuid4())
+            self.user_id_by_session_id[session_id] = user_id
+        return session_id
 
-    try:
-        user = User.search({"email": email})
-        if len(user) == 0:
-            return jsonify({"error": "no user found for this email"}), 404
-        if not user[0].is_valid_password(password):
-            return jsonify({"error": "wrong password"}), 401
+    def user_id_for_session_id(self, session_id: str = None) -> str:
+        """Session auth class to handle session authorization"""
+        if session_id is None or not isinstance(session_id, str):
+            return None
+        else:
+            return self.user_id_by_session_id.get(session_id)
 
-        jsonified_user = user[0].to_json()
-        session_id = auth.create_session(jsonified_user.get('id'))
-        resp = make_response(jsonify(jsonified_user), 201)
-        resp.set_cookie(getenv("SESSION_NAME"), session_id)
-        return resp
-
-    except Exception as e:
-        return make_response(jsonify({"error": "an error occured"}), 500)
+    def current_user(self, request=None) -> TypeVar("User"):
+        """Session auth class to handle session authorization"""
+        if request is None:
+            return None
+        else:
+            session_id = self.session_cookie(request)
+            user_id = self.user_id_by_session_id.get(session_id)
+            return User.get(user_id)
