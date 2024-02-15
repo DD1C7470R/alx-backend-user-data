@@ -57,12 +57,16 @@ def authenticate_user():
             '/api/v1/forbidden/',
         ]
     if auth.require_auth(request.path, excluded_paths):
+        is_cookie_set = request.cookies.get(getenv("SESSION_NAME"))
+        auth_header = auth.authorization_header(request)
+
+        if auth_header is None and is_cookie_set is None:
+            abort(401)
         if not auth_type == "session_auth":
             auth_header = auth.authorization_header(request)
             if auth_header is None:
                 abort(401)
         else:
-            is_cookie_set = request.cookies.get(getenv("SESSION_NAME"))
             if is_cookie_set is not None:
                 if auth.session_cookie(request) is None:
                     abort(401)
