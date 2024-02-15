@@ -62,8 +62,10 @@ def authenticate_user():
             if auth_header is None:
                 abort(401)
         else:
-            if auth.session_cookie(request) is None:
-                abort(401)
+            is_cookie_set = request.cookies.get(getenv("SESSION_NAME"))
+            if is_cookie_set is not None:
+                if auth.session_cookie(request) is None:
+                    abort(401)
         user = auth.current_user(request)
 
         if user is None:
