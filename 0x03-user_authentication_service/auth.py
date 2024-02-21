@@ -99,14 +99,6 @@ class Auth:
         except Exception as e:
             return None
 
-    def destroy_session(self, user_id: int) -> None:
-        """The method takes a single user_id integer
-        argument and returns None.
-        """
-        if user_id is None or not isinstance(user_id, int):
-            return None
-        return self._db.update_user(user_id, session_id=None)
-
     def get_reset_password_token(self, email: str) -> str:
         """Get reset password token.
         """
@@ -119,7 +111,7 @@ class Auth:
             raise ValueError
 
     def update_password(self, reset_token: str, password: str) -> None:
-        """Update the password.
+        """Update the password using reset token and new password.
         """
         try:
             user = self._db.find_user_by(reset_token=reset_token)
@@ -129,3 +121,11 @@ class Auth:
         except NoResultFound:
             raise ValueError
         return None
+
+    def destroy_session(self, user_id: int) -> None:
+        """The method takes a single user_id integer
+        argument and returns None.
+        """
+        if user_id is None or not isinstance(user_id, int):
+            return None
+        return self._db.update_user(user_id, session_id=None)
