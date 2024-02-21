@@ -46,7 +46,7 @@ class DB:
         """returns the first row found in the
             users table as filtered by the method’s input arguments.
         """
-        fiields, values = [], []
+        fields, values = [], []
         for key, value in kwargs.items():
             if hasattr(User, key):
                 fields.append(getattr(User, key))
