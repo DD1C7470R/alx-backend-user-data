@@ -57,20 +57,19 @@ class DB:
             raise e
 
     def update_user(self, user_id: int, **attributes) -> User:
-        """ takes as argument a required user_id integer and
-        arbitrary keyword arguments, and returns None.
+        """Updates a user based on a given id.
         """
-        user_obj = {}
         user = self.find_user_by(id=user_id)
         if user is None:
             return
-        for key, value in attributes.items():
+        update_source = {}
+        for key, value in kwargs.items():
             if hasattr(User, key):
-                user_obj[getattr(user, key)] = value
+                update_source[getattr(User, key)] = value
             else:
-                raise ValueError
-        self._session.query(User).filter(user.id == user_id).update(
-            user_obj,
+                raise ValueError()
+        self._session.query(User).filter(User.id == user_id).update(
+            update_source,
             synchronize_session=False,
         )
         self._session.commit()
