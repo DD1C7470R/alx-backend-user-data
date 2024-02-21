@@ -33,8 +33,6 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
         """Creates a new user"""
-        if email is None and hashed_password is None:
-            return None
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
