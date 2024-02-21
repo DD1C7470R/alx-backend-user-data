@@ -5,7 +5,7 @@ from typing import Union
 from user import Base, User
 import bcrypt
 from db import DB
-import uuid
+from uuid import uuid4
 
 
 def _hash_password(password: str) -> str:
@@ -66,7 +66,7 @@ class Auth:
         """The function should return a string
             representation of a new UUID.
         """
-        return str(uuid.uuid4())
+        return str(uuid4())
 
     def create_session(self, email: str) -> str:
         """ takes an email string argument and returns
