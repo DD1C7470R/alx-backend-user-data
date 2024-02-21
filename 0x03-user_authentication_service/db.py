@@ -46,15 +46,19 @@ class DB:
         """returns the first row found in the
             users table as filtered by the method’s input arguments.
         """
-        try:
-            result = self._session.query(User).filter_by(**attributes).first()
-            if result is None:
-                raise NoResultFound
-            return result
-        except NoResultFound as e:
-            raise e
-        except InvalidRequestError as e:
-            raise e
+        fiields, values = [], []
+        for key, value in kwargs.items():
+            if hasattr(User, key):
+                fields.append(getattr(User, key))
+                values.append(value)
+            else:
+                raise InvalidRequestError()
+        result = self._session.query(User).filter(
+            tuple_(*fields).in_([tuple(values)])
+        ).first()
+        if result is None:
+            raise NoResultFound()
+        return result
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Updates a user based on a given id.
