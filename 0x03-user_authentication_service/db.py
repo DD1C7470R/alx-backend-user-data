@@ -72,4 +72,4 @@ class DB:
             return None
         except Exception as e:
             self._session.rollback()
-            raise §ValueError
+            raise ValueError
