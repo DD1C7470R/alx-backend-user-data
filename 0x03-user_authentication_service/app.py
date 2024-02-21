@@ -2,10 +2,6 @@
 """
 Main app file
 """
-
-#!/usr/bin/env python3
-"""Route module for the API.
-"""
 import os
 from os import getenv
 from flask import Flask, jsonify, abort, request, make_response, redirect
@@ -22,6 +18,7 @@ def index():
     """
     return jsonify({"message": "Bienvenue"})
 
+
 @app.route('/users', methods=['POST'])
 def all_users():
     """index handler.
@@ -36,12 +33,13 @@ def all_users():
     try:
         user = AUTH.register_user(email, password)
         return jsonify({
-            "email": email ,
+            "email": email,
             "message": "user created"
         })
 
     except Exception as e:
         return jsonify({"message": "email already registered"})
+
 
 @app.route('/sessions', methods=['POST'])
 def user_login():
@@ -70,6 +68,7 @@ def user_login():
     except Exception as e:
         raise e
 
+
 @app.route('/sessions', methods=['DELETE'])
 def user_logout():
     """ If the user exists destroy the
@@ -85,6 +84,7 @@ def user_logout():
     except Exception as e:
         return jsonify({"message": "logout failed"})
 
+
 @app.route('/reset_password', methods=['POST'])
 def reset_password():
     """ If the user exists destroy the
@@ -98,6 +98,7 @@ def reset_password():
         return jsonify({"email": email, "reset_token": reset_token})
     except Exception as e:
         abort(403)
+
 
 @app.route('/reset_password', methods=['PUT'])
 def reset_password():
