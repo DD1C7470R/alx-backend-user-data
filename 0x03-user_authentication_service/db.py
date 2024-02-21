@@ -56,9 +56,7 @@ class DB:
         except InvalidRequestError as e:
             raise e
 
-    def update_user(
-            self, user_id: int, **attributes
-            ) -> User:
+    def update_user(self, user_id: int, **attributes) -> User:
         """ takes as argument a required user_id integer and
         arbitrary keyword arguments, and returns None.
         """
@@ -70,8 +68,8 @@ class DB:
             if hasattr(User, key):
                 user_obj[getattr(user, key)] = value
             else:
-                raise ValueError(f"Invalid attribute: {key}")
-        self._session.query(User).filter(User.id == user_id).update(
+                raise ValueError
+        self._session.query(User).filter(user.id == user_id).update(
             user_obj,
             synchronize_session=False,
         )
