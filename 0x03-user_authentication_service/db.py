@@ -42,14 +42,14 @@ class DB:
             self._session.rollback()
             return None
 
-    def find_user_by(self, **attributes: str) -> User:
+    def find_user_by(self, **attributes: Union[str, int]) -> User:
         """returns the first row found in the
             users table as filtered by the method’s input arguments.
         """
         try:
             result = self._session.query(User).filter_by(**attributes).first()
             if result is None:
-                raise NoResultFound("No user found")
+                raise NoResultFound
             return result
         except NoResultFound as e:
             raise e
