@@ -66,9 +66,9 @@ class DB:
         user = self.find_user_by(id=user_id)
         if user is None:
             return
-        [
-            setattr(user, key, value)
-            for key, value in attributes.items()
-            if hasattr(User, key) else raise ValueError
-        ]
+        for key, value in attributes.items():
+            if hasattr(User, key):
+                setattr(user, key, value)
+            else:
+                raise ValueError(f"Invalid attribute: {key}")
         self._session.commit()
