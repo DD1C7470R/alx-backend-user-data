@@ -111,7 +111,7 @@ class Auth:
         reset_token database field. Return the token.
         """
         try:
-            if e§mail is None or not isinstance(email, str):
+            if email is None or not isinstance(email, str):
                 return None
             user = self._db.find_user_by(email=email)
             if not isinstance(user, User):
