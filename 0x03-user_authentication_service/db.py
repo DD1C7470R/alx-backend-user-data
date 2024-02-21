@@ -42,7 +42,7 @@ class DB:
             self._session.rollback()
             return None
 
-    def find_user_by(self, **attributes: str) -> TypeVar('User'):
+    def find_user_by(self, **attributes: str) -> User:
         """returns the first row found in the
             users table as filtered by the method’s input arguments.
         """
@@ -58,7 +58,7 @@ class DB:
 
     def update_user(
             self, user_id: int, **attributes: Union[str, int]
-            ) -> TypeVar('User'):
+            ) -> User:
         """ takes as argument a required user_id integer and
         arbitrary keyword arguments, and returns None.
         """
