@@ -62,13 +62,17 @@ class DB:
         """ takes as argument a required user_id integer and
         arbitrary keyword arguments, and returns None.
         """
-
+        user_obj = {}
         user = self.find_user_by(id=user_id)
         if user is None:
             return
         for key, value in attributes.items():
             if hasattr(User, key):
-                setattr(user, key, value)
+                user_obj[getattr(user, key)] = value
             else:
                 raise ValueError(f"Invalid attribute: {key}")
+        self._session.query(User).filter(User.id == user_id).update(
+            user_obj,
+            synchronize_session=False,
+        )
         self._session.commit()
