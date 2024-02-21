@@ -40,7 +40,8 @@ class DB:
             self._session.commit()
             return user
         except Exception as e:
-            raise e
+            self._session.rollback()
+            return None
 
     def find_user_by(self, **attributes: str) -> TypeVar('User'):
         """returns the first row found in the
