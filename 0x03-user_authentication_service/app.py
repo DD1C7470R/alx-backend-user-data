@@ -123,6 +123,21 @@ def reset_password():
         return abort(403)
 
 
+@app.route('/profile', methods=['GET'])
+def user_profile():
+    """ returns user profile
+    """
+    try:
+        session_id = request.cookies.get('session_id')
+        user = AUTH.get_user_from_session_id(session_id)
+        if user is None:
+            abort(403)
+        return jsonify({"email": user.email})
+
+    except Exception as e:
+        raise e
+
+
 @app.errorhandler(403)
 def forbidden(error) -> str:
     """Forbidden handler.
