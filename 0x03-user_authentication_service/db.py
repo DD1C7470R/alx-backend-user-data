@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Defines dabase model"""
-from sqlalchemy import create_engine, and_, or_
+from sqlalchemy import create_engine, and_, or_, tuple_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
