@@ -57,7 +57,7 @@ class DB:
             raise e
 
     def update_user(
-            self, user_id: int, **attributes: Union[str, int]
+            self, user_id: int, **attributes
             ) -> User:
         """ takes as argument a required user_id integer and
         arbitrary keyword arguments, and returns None.
@@ -69,4 +69,5 @@ class DB:
             self._session.commit()
             return None
         except Exception as e:
+            self._session.rollback()
             raise ValueError
