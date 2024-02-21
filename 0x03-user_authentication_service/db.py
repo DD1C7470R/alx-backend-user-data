@@ -66,13 +66,9 @@ class DB:
             update_source = {}
             for key, value in kwargs.items():
                 if hasattr(User, key):
-                    update_source[getattr(User, key)] = value
+                    setattr(user, key, value)
                 else:
                     raise ValueError()
-            self._session.query(User).filter(User.id == user_id).update(
-                update_source,
-                synchronize_session=False,
-            )
             self._session.commit()
         except ValueError as e:
             self._session.rollback()
