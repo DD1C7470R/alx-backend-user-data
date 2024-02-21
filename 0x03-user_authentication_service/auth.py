@@ -104,7 +104,7 @@ class Auth:
         """
         if user_id is None or not isinstance(user_id, int):
             return None
-        return self._db.update_user(user_id,  session_id=None)
+        return self._db.update_user(user_id, session_id=None)
 
     def get_reset_password_token(self, email: str) -> str:
         """generate a UUID and update the user’s

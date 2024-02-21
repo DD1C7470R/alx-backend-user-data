@@ -82,8 +82,7 @@ def user_logout():
         AUTH.destroy_session(user.id)
         return redirect('/')
     except Exception as e:
-        return jsonify({"message": "logout failed"})
-
+        raise e
 
 @app.route('/reset_password', methods=['POST'])
 def request_reset_password():
