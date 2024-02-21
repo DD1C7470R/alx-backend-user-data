@@ -86,7 +86,7 @@ def user_logout():
 
 
 @app.route('/reset_password', methods=['POST'])
-def reset_password():
+def request_reset_password():
     """ If the user exists destroy the
     session and redirect the user to GET /
     """
