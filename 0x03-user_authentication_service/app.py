@@ -84,6 +84,7 @@ def user_logout():
     except Exception as e:
         raise e
 
+
 @app.route('/reset_password', methods=['POST'])
 def request_reset_password():
     """ If the user exists destroy the
