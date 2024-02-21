@@ -66,10 +66,9 @@ class DB:
         user = self.find_user_by(id=user_id)
         if user is None:
             return
-        try:
-            [setattr(user, key, value) for key, value in attributes.items()]
-            self._session.commit()
-            return None
-        except Exception as e:
-            self._session.rollback()
-            raise ValueError
+        [
+            setattr(user, key, value)
+            for key, value in attributes.items()
+            if hasattr(User, key) else raise ValueError
+        ]
+        self._session.commit()
