@@ -75,4 +75,5 @@ class DB:
             )
             self._session.commit()
         except ValueError as e:
+            self._session.rollback()
             raise e
