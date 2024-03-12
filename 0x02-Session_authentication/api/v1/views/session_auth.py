@@ -36,7 +36,7 @@ def login_user() -> str:
         jsonified_user = user[0].to_json()
         session_id = auth.create_session(jsonified_user.get('id'))
         resp = make_response(jsonify(jsonified_user), 200)
-        resp.set_cookie(getenv("SESSION_NAME"), session_id)
+        resp.set_cookie(getenv("SESSION_NAME"), session_id, secure=True, httponly=True, samesite='Lax')
         return resp
 
     except Exception as e:
