@@ -2,7 +2,7 @@
 """ Base module
 """
 from datetime import datetime
-from typing import TypeVar, List, Iterable
+from typing import Optional, TypeVar, List, Iterable
 from os import path
 import json
 import uuid
@@ -122,9 +122,10 @@ class Base():
         return DATA[s_class].get(id)
 
     @classmethod
-    def search(cls, attributes: dict = {}) -> List[TypeVar('Base')]:
+    def search(cls, attributes: Optional[dict] = None) -> List[TypeVar('Base')]:
         """ Search all objects with matching attributes
         """
+        attributes = {} if attributes is None else attributes
         s_class = cls.__name__
         def _search(obj):
             if len(attributes) == 0:
