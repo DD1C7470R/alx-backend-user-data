@@ -62,7 +62,7 @@ def user_login():
             "email": email,
             "message": "logged in"
         }))
-        resp.set_cookie("session_id", session_id)
+        resp.set_cookie("session_id", session_id, secure=True, httponly=True, samesite='Lax')
         return resp
 
     except Exception as e:
